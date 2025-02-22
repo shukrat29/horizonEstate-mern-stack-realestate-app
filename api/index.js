@@ -2,6 +2,8 @@ import express from "express";
 import mongoose from "mongoose";
 import dotenv from "dotenv";
 import authRouter from "./routes/authRoute.js";
+import userRouter from "./routes/userRoute.js";
+import cookieParser from "cookie-parser";
 dotenv.config();
 
 // Db connection
@@ -18,6 +20,7 @@ const app = express();
 
 // middlewares
 app.use(express.json());
+app.use(cookieParser());
 
 // Server checking
 app.get("/", (req, res) => {
@@ -26,6 +29,7 @@ app.get("/", (req, res) => {
 
 // Routes
 app.use("/api/auth", authRouter);
+app.use("/api/user", userRouter);
 
 // Server Listen
 app.listen(3000, () => {
