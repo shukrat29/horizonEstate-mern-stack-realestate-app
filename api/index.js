@@ -26,16 +26,6 @@ const app = express();
 app.use(express.json());
 app.use(cookieParser());
 
-// Server checking
-app.get("/", (req, res) => {
-  res.send("Hello from server");
-});
-
-// Server Listen
-app.listen(3000, () => {
-  console.log("Server is running on port 3000!!");
-});
-
 // Routes
 app.use("/api/auth", authRouter);
 app.use("/api/user", userRouter);
@@ -56,4 +46,9 @@ app.use((err, req, res, next) => {
     statusCode,
     message,
   });
+});
+
+// Server Listen
+app.listen(3000, () => {
+  console.log("Server is running on port 3000!!");
 });
