@@ -5,6 +5,7 @@ import authRouter from "./routes/authRoute.js";
 import userRouter from "./routes/userRoute.js";
 import listingRouter from "./routes/listingRoute.js";
 import cookieParser from "cookie-parser";
+import path from "path";
 dotenv.config();
 
 // Db connection
@@ -17,6 +18,8 @@ mongoose
     console.log(err);
   });
 
+const __dirname = path.resolve();
+
 const app = express();
 
 // middlewares
@@ -28,14 +31,20 @@ app.get("/", (req, res) => {
   res.send("Hello from server");
 });
 
+// Server Listen
+app.listen(3000, () => {
+  console.log("Server is running on port 3000!!");
+});
+
 // Routes
 app.use("/api/auth", authRouter);
 app.use("/api/user", userRouter);
 app.use("/api/listing", listingRouter);
 
-// Server Listen
-app.listen(3000, () => {
-  console.log("Server is running on port 3000!!");
+app.use(express.static(path.join(__dirname, "/client/dist")));
+
+app.get("*", (req, res) => {
+  res.sendFile(path.join(__dirname, "client", "dist", "index.html"));
 });
 
 // middleware to handle the error
